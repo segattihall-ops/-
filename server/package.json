@@ -6,7 +6,8 @@
   "main": "realtime.js",
   "scripts": {
     "start": "node realtime.js",
-    "dev": "node --watch realtime.js"
+    "dev": "node --watch realtime.js",
+    "realtime": "node realtime.js"
   },
   "dependencies": {
     "ws": "^8.18.0",
