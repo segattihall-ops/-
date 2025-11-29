@@ -5,6 +5,7 @@
  * using stored prompt: pmpt_692a9f2f6e148195850e91132c55366005098e88b3968255
  */
 
+import { WebSocketServer } from "ws";
 import WebSocket from "ws";
 import { createClient } from '@supabase/supabase-js';
 
@@ -17,7 +18,7 @@ const PORT = process.env.PORT || 3002;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Create WebSocket server
-const server = new WebSocket.Server({ port: PORT });
+const server = new WebSocketServer({ port: PORT });
 console.log(`🚀 Realtime WS running on port ${PORT}`);
 
 // Store active sessions for waitlist data
