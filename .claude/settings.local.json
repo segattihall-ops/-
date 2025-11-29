@@ -12,7 +12,12 @@
       "Bash(git push:*)",
       "Bash(npm install:*)",
       "Bash(mkdir:*)",
-      "Bash(vercel deploy:*)"
+      "Bash(vercel deploy:*)",
+      "Bash(vercel env:*)",
+      "Bash(vercel ls:*)",
+      "Bash(curl -X POST https://twilloai-o0bt808fu-mm-website.vercel.app/api/voice -H \"Content-Type: application/x-www-form-urlencoded\")",
+      "Bash(vercel inspect:*)",
+      "Bash(vercel project:*)"
     ],
     "deny": [],
     "ask": []
