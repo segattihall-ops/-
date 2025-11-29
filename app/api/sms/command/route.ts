@@ -11,39 +11,27 @@ export async function POST(req: Request) {
   const body = (form.get("Body") || "").toString().trim().toUpperCase();
   const fromNumber = form.get("From")?.toString();
 
-  // Only masseur can trigger command
   if (fromNumber !== process.env.MASSEUR_PHONE) {
     return new NextResponse("Ignored", { status: 200 });
   }
 
   if (body === "CALL") {
-    // fetch last missed call
-    const data = await client.sync
+    // Cast sync to any to avoid TS error with Twilio v3
+    const mapItem = await (client.sync as any)
       .services("default")
       .maps("callback")
       .items("latest")
       .fetch();
 
-    const clientNumber = data.data.number;
+    const clientNumber = mapItem.data.number;
 
-    if (!clientNumber) {
-      await client.messages.create({
-        to: process.env.MASSEUR_PHONE!,
-        from: process.env.TWILIO_PHONE_NUMBER!,
-        body: "No recent missed caller found."
-      });
-
-      return new NextResponse("OK", { status: 200 });
-    }
-
-    // call the masseur first
     await client.calls.create({
       to: process.env.MASSEUR_PHONE!,
       from: process.env.TWILIO_PHONE_NUMBER!,
-      url: `https://${process.env.VERCEL_URL}/api/voice/callback?client=${encodeURIComponent(clientNumber)}`
+      url: `https://${process.env.VERCEL_URL}/api/voice/callback?client=${encodeURIComponent(
+        clientNumber
+      )}`,
     });
-
-    return new NextResponse("OK", { status: 200 });
   }
 
   return new NextResponse("OK", { status: 200 });
